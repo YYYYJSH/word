@@ -1,0 +1,162 @@
+#!/bin/bash
+declare -i flag
+flag=0
+
+function log()
+{
+    declare -r str='
+00000000000000000000000000000000000000
+00000000000002200220020000000000000000
+00000000022222200220200000000000000000
+00000000022222200222002000000000000000
+00000000000002200220022000000000000000
+00000000000002200222220000000000000000
+00000000000000000000000000000000000000
+00000000000022222222200000000000000000
+00000000000022000002200000000000000000
+00000000000022222222200000000000000000
+00000000000022000002200000000000000000
+00000000000022000002200000000000000000
+00000000000222222222200000000000000000
+00000000000220000002200000000000000000
+00000000002200002002200000000000000000
+00000000002200000202200000000000000000
+00000000000000000000000000000000000000
+00000000000000000000000000000000000000
+00000000000000000000000000000000000000
+00000000000000000000000000000000000000
+00000000000000000000000000000000000000'
+ 
+    declare -i j=0
+    declare -i row=2
+    declare -i a1=0
+    line_char_count=39
+    declare -i width
+    declare -i high
+    declare -i k=0
+    declare -i n=37
+    declare -i n1=30
+    declare -i nn
+    declare -i nm
+    declare -i b
+    width=79
+    high=23
+    clear
+    echo -ne "\033[1;1H"
+    echo -e "\033[31;40m"
+ 
+    for (( i=1; i<=$width; i=i+1 ))
+    do
+        for (( j=1; j<=18; j=j+1))
+        do
+            echo -e "\033[43m\033["$j";"$i"H \033[40m"
+        done
+    done
+    for (( i=1; i<=$width; i=i+1 ))
+    do
+        for (( j=19; j<=23; j=j+1))
+        do
+            echo -e "\033[42m\033["$j";"$i"H \033[40m"
+        done
+    done
+    echo -e "\033[1;1H=\033["$high";1H=\033[1;"$width"H=\033["$high";"$width"H=\033[40m"
+ 
+        echo -e "\033[?25l"
+        if [ $k = 0 ];then
+        n=37
+        n1=30
+        else
+        n=30
+        n1=37
+       fi
+    for (( i=1; i<=$width; i=i+1 ))
+    do
+        echo -e "\033[1;"$i"H="
+        echo -e "\033["$high";"$i"H="
+    done
+    for (( i=2; i<=$high-1; i=i+1 ))
+    do
+        echo -e "\033["$i";1H||"
+        echo -e "\033["$i";"$width"H||\n"
+    done
+    echo -e "\033[1;80H \033[40m"
+    echo -e "\033[23;80H \033[40m"
+    echo -ne "\033[2;3H"
+    for ((i=0; i<${#str}; i++));do
+        if [ "$[i%line_char_count]" == "0" ] && [ "$i" != "0" ];then
+            row=$row+1
+            echo -ne "\033["$row";3H"
+        fi
+	if (( row < 18 ));then
+	b=43
+	else
+	b=42
+	fi
+    if [ "${str:$i:1}" == "0" ];then
+            echo -ne "\033["$b"m \033[40m"
+        elif [ "${str:$i:1}" == "2" ];then
+            echo -ne "\033[30;"$b"mo\033[40m"
+        fi
+    done
+	echo -ne "\033[1;1H"
+}
+ 
+
+#背景及边框
+
+function menu0()
+{
+declare -i flag2
+flag2=0
+log
+if [ $flag2 = 0 ];then
+        echo -e "\033[10;42H\033[37;44m背单词练习....................1\033[37;40m"
+        echo -ne "\033[43m\033[16;45Hplease input you choic: "
+        read choic
+        elif [ $flag2 = 1 ];then
+                echo "game start"
+        fi
+        case $choic in
+        1)
+      
+        if (whiptail --title "NOTE" --yesno "是否进行游戏?" 10 60)then
+                {
+                flag2=1
+ 
+                for ((i=0;i<=100;i+=20));
+                        do
+                        sleep 0.5
+                        echo $i 
+                        done
+                }|whiptail --gauge "加载中，请稍后....." 6 60 0
+ 		clear
+		right=0
+                while [ $flag2 ]
+                do
+		if [ "$1" == "1" ];then
+			read word
+			while read line
+			do
+			if [ $line == $word ];then
+			{
+			right=1
+			echo "单词$word正确"
+			}
+			fi
+			done  < d
+			fi
+		        done
+		        else
+		        flag2=0
+                fi;;
+	
+        4|q|Q)#退出
+        clear
+        flag=0;;
+        *)#错误处理
+        whiptail --title "ERROR" --msgbox "错误选项 请重新选择" 10 60;;
+        esac
+ 
+}
+
+
